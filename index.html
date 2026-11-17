@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bé Ghép Chữ "a" Viết Thường - Trò Chơi Lắp Ráp Nét Chữ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-wrapper">
+    <!-- Header / Banner -->
+    <header class="game-header">
+      <div class="title-container">
+        <span class="badge-icon">✏️</span>
+        <div>
+          <h1 class="main-title">BÉ TẬP GHÉP CHỮ <span class="letter-highlight">a</span></h1>
+          <p class="subtitle">Kéo thả <b>Nét cong kín</b> và <b>Nét móc</b> vào đúng vị trí trên vở ô ly nhé!</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btn-sound" class="btn-icon" title="Bật/Tắt âm thanh" aria-label="Bật tắt âm thanh">
+          <span class="icon">🔊</span>
+        </button>
+        <button id="btn-hint" class="btn-icon active" title="Bật/Tắt bóng mờ gợi ý" aria-label="Gợi ý">
+          <span class="icon">💡</span>
+        </button>
+        <button id="btn-pronounce-nav" class="btn-secondary" title="Nghe phát âm">
+          <span class="icon">🗣️</span> Phát âm
+        </button>
+        <button id="btn-reset" class="btn-primary" title="Chơi lại từ đầu">
+          <span class="icon">🔄</span> Chơi lại
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Game Area -->
+    <main class="game-board-container">
+      
+      <!-- Khung vở ô ly (Vùng lắp ráp) -->
+      <section class="notebook-section" aria-label="Vở tập viết ô ly">
+        <div class="notebook-header">
+          <span class="notebook-pin pin-left">🔴</span>
+          <span class="notebook-label">VỞ TẬP VIẾT Ô LY TIỂU HỌC</span>
+          <span class="notebook-pin pin-right">🔴</span>
+        </div>
+
+        <div class="notebook-sheet" id="notebook-sheet">
+          <!-- Lưới ô ly SVG nền -->
+          <div class="grid-lines" id="grid-lines"></div>
+
+          <!-- Khu vực lắp ráp chứa các slot bóng mờ -->
+          <div class="assembly-area" id="assembly-area">
+            <svg id="guide-svg" viewBox="0 0 340 380" class="guide-svg">
+              <!-- Đường kẻ phụ trợ đường kẻ số 1, 2, 3 chuẩn ô ly -->
+              <defs>
+                <filter id="glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+
+              <!-- Target 1: Nét cong kín (Ghost guide) -->
+              <g id="target-stroke-curve" class="drop-target" data-target="curve">
+                <path class="target-outline-glow" d="M 175,135 C 175,102 145,80 105,80 C 65,80 35,115 35,175 C 35,235 65,270 105,270 C 145,270 175,248 175,215" />
+                <path class="target-outline" d="M 175,135 C 175,102 145,80 105,80 C 65,80 35,115 35,175 C 35,235 65,270 105,270 C 145,270 175,248 175,215 C 175,190 175,150 175,135 Z" />
+                <text x="105" y="180" class="target-text">Nét cong kín</text>
+              </g>
+
+              <!-- Target 2: Nét móc (Ghost guide) -->
+              <g id="target-stroke-hook" class="drop-target" data-target="hook">
+                <path class="target-outline-glow" d="M 175,80 L 175,225 C 175,255 195,270 230,270 C 265,270 285,245 285,210" />
+                <path class="target-outline" d="M 175,80 L 175,225 C 175,255 195,270 230,270 C 265,270 285,245 285,210" />
+                <text x="235" y="160" class="target-text">Nét móc</text>
+              </g>
+
+              <!-- Finished full letter (hiển thị khi hoàn thành) -->
+              <g id="completed-letter" class="completed-letter hidden">
+                <path class="letter-stem stroke-curve-done" d="M 175,135 C 175,102 145,80 105,80 C 65,80 35,115 35,175 C 35,235 65,270 105,270 C 145,270 175,248 175,215 C 175,190 175,150 175,135 Z" />
+                <path class="letter-stem stroke-hook-done" d="M 175,80 L 175,225 C 175,255 195,270 230,270 C 265,270 285,245 285,210" />
+              </g>
+            </svg>
+
+            <!-- Bong bóng gợi ý khi gần khớp -->
+            <div id="snap-indicator" class="snap-indicator">Khớp rồi! Thả tay ra nào ✨</div>
+          </div>
+        </div>
+
+        <!-- Hướng dẫn các đường kẻ ô ly chuẩn sư phạm -->
+        <div class="line-guide-bar">
+          <span class="line-tag tag-top">Đường kẻ 3 (cao 2 ô ly)</span>
+          <span class="line-tag tag-middle">Đường kẻ 2 (cao 1 ô ly)</span>
+          <span class="line-tag tag-bottom">Đường kẻ 1 (dòng kẻ đậm đáy)</span>
+        </div>
+      </section>
+
+      <!-- Khay chứa các mảnh ghép nét chữ (Parts Dock) -->
+      <section class="dock-section" aria-label="Mảnh ghép nét chữ">
+        <div class="dock-header">
+          <div class="dock-title">
+            <span class="star-badge">🧩</span>
+            <h3>CÁC MẢNH GHÉP NÉT CHỮ</h3>
+          </div>
+          <span class="dock-desc">Bé hãy kéo từng nét vào đúng bóng mờ trên bảng nhé!</span>
+        </div>
+
+        <div class="pieces-tray" id="pieces-tray">
+
+          <!-- Mảnh 1: Nét cong kín -->
+          <div class="piece-card" id="card-curve" data-piece="curve">
+            <div class="piece-header">
+              <span class="piece-num">1</span>
+              <span class="piece-name">Nét cong kín</span>
+              <button class="btn-read-piece" data-speech="Nét cong kín" title="Nghe đọc tên nét">🔊</button>
+            </div>
+            
+            <div class="piece-canvas-wrapper draggable-piece" id="piece-curve" data-piece="curve" tabindex="0" role="button" aria-grabbed="false" aria-label="Nét cong kín, kéo vào bảng">
+              <svg viewBox="0 0 170 220" class="piece-svg">
+                <defs>
+                  <linearGradient id="grad-curve" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FF6B6B" />
+                    <stop offset="100%" stop-color="#FF8E53" />
+                  </linearGradient>
+                  <filter id="piece-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="2" dy="5" stdDeviation="4" flood-opacity="0.3" />
+                  </filter>
+                </defs>
+                <path class="piece-path curve-path" 
+                      d="M 155,60 C 155,27 125,5 85,5 C 45,5 15,40 15,100 C 15,160 45,195 85,195 C 125,195 155,173 155,140 C 155,115 155,75 155,60 Z" />
+                <!-- Mắt cười cute cho nét chữ -->
+                <circle cx="70" cy="95" r="4" fill="#5D101D" />
+                <circle cx="100" cy="95" r="4" fill="#5D101D" />
+                <path d="M 80,105 Q 85,115 90,105" stroke="#5D101D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              </svg>
+              <div class="drag-hint-badge">Kéo tớ đi! ✋</div>
+            </div>
+            <div class="piece-slot-anchor" id="slot-curve"></div>
+          </div>
+
+          <!-- Mảnh 2: Nét móc xuôi / móc ngược (chữ a) -->
+          <div class="piece-card" id="card-hook" data-piece="hook">
+            <div class="piece-header">
+              <span class="piece-num">2</span>
+              <span class="piece-name">Nét móc xuôi (móc ngược)</span>
+              <button class="btn-read-piece" data-speech="Nét móc xuôi" title="Nghe đọc tên nét">🔊</button>
+            </div>
+            
+            <div class="piece-canvas-wrapper draggable-piece" id="piece-hook" data-piece="hook" tabindex="0" role="button" aria-grabbed="false" aria-label="Nét móc, kéo vào bảng">
+              <svg viewBox="0 0 140 220" class="piece-svg">
+                <defs>
+                  <linearGradient id="grad-hook" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#4FACFE" />
+                    <stop offset="100%" stop-color="#00F2FE" />
+                  </linearGradient>
+                </defs>
+                <path class="piece-path hook-path" 
+                      d="M 20,5 L 20,150 C 20,180 40,195 75,195 C 110,195 130,170 130,135" />
+                <!-- Mắt cười cute cho nét chữ -->
+                <circle cx="35" cy="70" r="4" fill="#0C4A6E" />
+                <circle cx="35" cy="95" r="4" fill="#0C4A6E" />
+                <path d="M 37,80 Q 45,83 37,86" stroke="#0C4A6E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              </svg>
+              <div class="drag-hint-badge">Kéo tớ đi! ✋</div>
+            </div>
+            <div class="piece-slot-anchor" id="slot-hook"></div>
+          </div>
+
+        </div>
+
+        <!-- Trạng thái hoàn thành -->
+        <div class="progress-bar-container">
+          <div class="progress-info">
+            <span id="progress-text">Đã lắp: <b>0 / 2</b> nét</span>
+            <span id="progress-status" class="status-encouragement">Bé hãy chọn 1 nét để kéo nhé! ⭐</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Modal chiến thắng chúc mừng bé -->
+    <div class="victory-modal" id="victory-modal" aria-hidden="true" role="dialog">
+      <div class="victory-card">
+        <div class="victory-stars">🌟 ⭐ 🌟 ⭐ 🌟</div>
+        <div class="victory-icon-bounce">🎉</div>
+        <h2 class="victory-title">HOAN HÔ BÉ! BÉ GIỎI QUÁ!</h2>
+        <p class="victory-desc">Bé đã lắp ghép thành công <b>chữ a viết thường</b> hoàn chỉnh rồi!</p>
+
+        <div class="victory-showcase">
+          <div class="assembled-display">
+            <span class="giant-letter">a</span>
+          </div>
+          <div class="letter-summary">
+            <p><b>Chữ a viết thường gồm:</b></p>
+            <ul>
+              <li>🔴 <b>Nét 1:</b> Nét cong kín (cao 2 ô ly, rộng 1.5 ô ly)</li>
+              <li>🔵 <b>Nét 2:</b> Nét móc xuôi / móc ngược (chạm dòng kẻ 1 rồi uốn lên)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="victory-actions">
+          <button id="btn-victory-audio" class="btn-success">
+            <span class="icon">🔊</span> Nghe phát âm: "a"
+          </button>
+          <button id="btn-victory-replay" class="btn-primary">
+            <span class="icon">🔄</span> Chơi lại lần nữa!
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Canvas pháo hoa / confetti -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Hướng dẫn chân trang -->
+    <footer class="game-footer">
+      <p>💡 <b>Mẹo cho bé:</b> Chữ "a" viết thường gồm 1 nét cong kín bên trái và 1 nét móc áp sát bên phải. Chuẩn mẫu chữ viết tiểu học Việt Nam.</p>
+    </footer>
+
+  </div>
+
+  <script src="audio.js"></script>
+  <script src="confetti.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 /**
  * Module quản lý âm thanh cho Game Ghép Chữ "a"
  * Sử dụng Web Audio API cho hiệu ứng âm thanh (SFX) không cần tải file ngoài
- * Sử dụng Web Speech API cho giọng đọc tiếng Việt
+ * Sử dụng Web Speech API cho giọng đọc tiếng Việt & tiếng Anh
  */
 
 class SoundManager {
@@ -153,19 +153,43 @@ class SoundManager {
     }
   }
 
-  // 5. Phát âm tiếng Việt bằng SpeechSynthesis
+  // 5. Phát âm tiếng Việt / Tiếng Anh cho lời khen ngợi
+  speakPraise(text) {
+    if (this.isMuted) return;
+    if (!('speechSynthesis' in window)) return;
+
+    window.speechSynthesis.cancel();
+
+    const isEnglish = /perfect/i.test(text);
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = isEnglish ? 'en-US' : 'vi-VN';
+    utterance.rate = 1.0;
+    utterance.pitch = 1.25; // Giọng hào hứng, phấn khích
+
+    const voices = window.speechSynthesis.getVoices();
+    if (isEnglish) {
+      const enVoice = voices.find(v => v.lang.startsWith('en'));
+      if (enVoice) utterance.voice = enVoice;
+    } else {
+      const viVoice = voices.find(v => v.lang.includes('vi') || v.lang.includes('VI'));
+      if (viVoice) utterance.voice = viVoice;
+    }
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  // 6. Phát âm chung
   speak(text) {
     if (this.isMuted) return;
     if (!('speechSynthesis' in window)) return;
 
-    window.speechSynthesis.cancel(); // Dừng câu đang nói nếu có
+    window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'vi-VN';
-    utterance.rate = 0.9; // Giọng hơi chậm cho các bé dễ nghe
-    utterance.pitch = 1.1; // Tone giọng trong trẻo thân thiện
+    utterance.rate = 0.9;
+    utterance.pitch = 1.1;
 
-    // Thử tìm giọng đọc tiếng Việt chất lượng tốt nếu có
     const voices = window.speechSynthesis.getVoices();
     const viVoice = voices.find(v => v.lang.includes('vi') || v.lang.includes('VI'));
     if (viVoice) {

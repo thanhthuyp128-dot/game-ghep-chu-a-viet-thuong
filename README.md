@@ -1,36 +1,35 @@
 # 🎨 Trò Chơi Lắp Ráp Chữ "a" Viết Thường (Tiểu Học Việt Nam)
 
-Trò chơi tương tác giáo dục giúp các bé mầm non và học sinh lớp 1 nhận biết cấu tạo chữ viết thường của tiếng Việt, cụ thể là **chữ a viết thường**.
+Trò chơi tương tác giáo dục giúp các bé mầm non và học sinh lớp 1 nhận biết cấu tạo chữ viết thường của tiếng Việt, cụ thể là **chữ a viết thường** chuẩn mực tiểu học.
 
 ---
 
-## 🌟 Cấu tạo chữ "a" viết thường trong trò chơi
-Theo chuẩn mẫu chữ viết tập viết tiểu học Việt Nam, chữ **"a" viết thường** có độ cao 2 ô ly, rộng khoảng 2.5 ô ly, được tạo bởi 2 nét cơ bản:
-1. **Nét 1 (Nét cong kín):** Cao 2 ô ly, rộng 1.5 ô ly, đặt bút dưới đường kẻ 3, lượn cong sang trái xuống đường kẻ 1 rồi khép kín tại điểm xuất phát.
-2. **Nét 2 (Nét móc xuôi / móc ngược):** Bắt đầu từ đường kẻ 3 (sát mép phải nét cong kín), kéo thẳng xuống chạm đường kẻ 1 rồi uốn cong móc lên, dừng bút ở đường kẻ 2.
+## 🌟 Chuẩn Kích Thước Ô Ly Chữ "a" Viết Thường
+Theo quy chuẩn tập viết tiếng Việt lớp 1:
+- **Độ cao:** Đúng **2 ô ly nhỏ** (từ Đường kẻ đậm lên đến Đường kẻ 3).
+- **Đáy chữ:** Đặt ngay ngắn trên **Đường kẻ đậm (Dòng kẻ 1 / Baseline)**.
+- **Nét 1 (Nét cong kín):** Cao đúng **2 ô ly nhỏ**, rộng 1.5 ô ly. Đỉnh chạm Đường kẻ 3, đáy chạm chuẩn Đường kẻ đậm.
+- **Nét 2 (Nét móc xuôi / móc ngược):** Cao đúng **2 ô ly nhỏ**. Đặt bút từ Đường kẻ 3, kéo thẳng đứng xuống chạm **Đường kẻ đậm**, sau đó uốn cong móc lên dừng bút ở Đường kẻ 2 (cao 1 ô ly).
 
 ---
 
-## 🎮 Cách chơi
-1. **Mở game:** Click đúp trực tiếp vào file `index.html` để mở trò chơi trong bất kỳ trình duyệt nào (Chrome, Cốc Cốc, Edge, Firefox, Safari).
-2. **Kéo thả nét chữ:**
-   - Dùng chuột (hoặc ngón tay trên điện thoại / máy tính bảng) chạm giữ vào mảnh ghép **Nét cong kín** hoặc **Nét móc**.
-   - Kéo mảnh ghép đến vị trí bóng mờ tương ứng trên bảng vở ô ly.
-   - Khi tới gần đúng vị trí, hệ thống sẽ tự động hút nét vào khớp (Snap Effect) kèm âm thanh *ting* lấp lánh.
-   - Nếu thả sai, nét sẽ tự động trượt về khay và nhắc nhở bé thử lại.
-3. **Hoàn thành chữ "a":**
-   - Khi ghép đủ 2 nét, chữ **a** hoàn chỉnh liền mạch chuẩn mực tím học trò sẽ xuất hiện rực rỡ kèm tiếng hoan hô và hiệu ứng pháo hoa giấy (confetti)!
-   - Popup chúc mừng hiện lên tóm tắt cấu tạo chữ và có nút phát âm chuẩn tiếng Việt.
+## 🎮 Tính Năng Mới Cập Nhật
+1. **Lưới ô ly chuẩn xác 100%:** 
+   - Đường kẻ đậm đáy dày dặn, nổi bật với nhãn hiển thị rõ ràng.
+   - Các đường kẻ 1, 2, 3 và thước đo chiều cao 2 ô ly trực quan để bé dễ dàng so sánh.
+2. **Hiệu ứng khen thưởng sinh động khi kéo thả đúng:**
+   - Khi lắp đúng vị trí, hệ thống sẽ ngẫu nhiên chọn một câu khen ngợi:
+     - 🌟 **"Tuyệt vời!"**
+     - 🌟 **"Đúng rồi!"**
+     - 🌟 **"Perfect!"**
+     - 🌟 **"Giỏi lắm!"**
+   - Dòng chữ khen thưởng lớn với đồ họa 3D lấp lánh sẽ xuất hiện nổi bật chính giữa màn hình trong **2 giây** rồi biến mất.
+   - Kèm âm thanh hiệu ứng và giọng đọc khen ngợi đầy hào hứng!
+3. **Pháo hoa & Giọng đọc hoàn thành chữ "a":**
+   - Khi ghép xong 2 nét, chữ "a" mực tím liền mạch hoàn chỉnh sẽ phát sáng, kèm pháo hoa giấy rực rỡ và popup chúc mừng.
 
 ---
 
-## 🛠️ Các tính năng nổi bật
-- **Chuẩn mẫu chữ & Vở ô ly tiểu học:** Lưới kẻ 4-5 ô ly với vạch đậm dòng kẻ 1 (đáy), vạch đường kẻ 2 và đường kẻ 3 rõ ràng.
-- **Tương thích mọi thiết bị:** Hỗ trợ mượt mà trên máy tính để bàn (chuột), laptop (trackpad), máy tính bảng (iPad/Android tablet) và điện thoại thông minh (cảm ứng đa điểm).
-- **Âm thanh & Giọng đọc tiếng Việt tích hợp:**
-  - Hiệu ứng âm thanh chân thực bằng Web Audio API thuần (không cần internet, chạy offline 100%).
-  - Tích hợp giọng đọc Web Speech API tiếng Việt phát âm rõ ràng từng nét và chữ "a".
-- **Chế độ hỗ trợ bé:**
-  - Nút 💡 **Gợi ý:** Bật/tắt bóng mờ nét đứt để bé rèn luyện trí nhớ khi đã quen tay.
-  - Nút 🗣️ **Phát âm:** Nghe lại cách đọc chữ "a".
-  - Nút 🔄 **Chơi lại:** Khởi động lại vòng chơi mới bất cứ lúc nào.
+## 🚀 Trải nghiệm trò chơi
+- **Chơi trên Local:** Mở file `index.html` trực tiếp trên trình duyệt, hoặc chạy `node server.js` rồi truy cập `http://localhost:3000/`.
+- **Mã nguồn GitHub:** [https://github.com/thanhthuyp128-dot/game-ghep-chu-a-viet-thuong](https://github.com/thanhthuyp128-dot/game-ghep-chu-a-viet-thuong)

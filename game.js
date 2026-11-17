@@ -1,9 +1,14 @@
 /**
- * Game Ghép Chữ "a" Viết Thường (Tiểu học Việt Nam)
- * Logic điều khiển trò chơi, Kéo - Thả (Pointer Events), Snap, Kiểm tra hoàn thành
+ * Game Ghép Chữ "a" Viết Thường (Chuẩn Vở Ô Ly Tiểu Học Việt Nam)
+ * - Nét cong kín: cao 2 ô ly nhỏ, rộng 1.5 ô ly
+ * - Nét móc xuôi: cao 2 ô ly nhỏ, đặt trên đường kẻ đậm
+ * - Khen thưởng: "Tuyệt vời!", "Đúng rồi!", "Perfect!", "Giỏi lắm!" hiện 2 giây
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Danh sách các câu khen thưởng theo yêu cầu
+  const PRAISES = ['Tuyệt vời!', 'Đúng rồi!', 'Perfect!', 'Giỏi lắm!'];
+
   // Trạng thái của trò chơi
   const gameState = {
     installedPieces: new Set(), // 'curve', 'hook'
@@ -12,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     dragOffset: { x: 0, y: 0 },
     initialCardRect: null,
     snapThreshold: 90, // Bán kính snap hút vào đích (pixel)
-    showHints: true
+    showHints: true,
+    praiseTimeout: null
   };
 
   // Các phần tử DOM
@@ -25,6 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const progressFill = document.getElementById('progress-fill');
   const progressStatus = document.getElementById('progress-status');
   const victoryModal = document.getElementById('victory-modal');
+  const praiseBanner = document.getElementById('praise-banner');
+  const praiseTextEl = document.getElementById('praise-text');
 
   // Các nút bấm điều khiển
   const btnReset = document.getElementById('btn-reset');
@@ -40,6 +48,40 @@ document.addEventListener('DOMContentLoaded', () => {
     curve: targetCurve,
     hook: targetHook
   };
+
+  /* ================= HIỂN THỊ KHEN THƯỞNG 2 GIÂY ================= */
+
+  function triggerPraise() {
+    // Chọn ngẫu nhiên 1 trong 4 câu khen
+    const randomIndex = Math.floor(Math.random() * PRAISES.length);
+    const praiseMessage = PRAISES[randomIndex];
+
+    if (praiseTextEl && praiseBanner) {
+      praiseTextEl.textContent = praiseMessage;
+
+      // Xóa timeout cũ nếu có
+      if (gameState.praiseTimeout) {
+        clearTimeout(gameState.praiseTimeout);
+      }
+
+      praiseBanner.classList.remove('fade-out');
+      praiseBanner.classList.add('active');
+
+      // Phát âm thanh tiếng khen tương ứng (Web Audio + Speech)
+      if (window.soundManager) {
+        window.soundManager.playSnap();
+        window.soundManager.speakPraise(praiseMessage);
+      }
+
+      // Hiện đúng 2 giây (2000ms) rồi biến mất
+      gameState.praiseTimeout = setTimeout(() => {
+        praiseBanner.classList.add('fade-out');
+        setTimeout(() => {
+          praiseBanner.classList.remove('active', 'fade-out');
+        }, 300);
+      }, 2000);
+    }
+  }
 
   /* ================= XỬ LÝ KÉO THẢ (POINTER EVENTS) ================= */
 
@@ -137,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ================= TÍNH TOÁN VÙNG MỤC TIÊU (SNAP) ================= */
 
-  // Kiểm tra khi nét đang kéo lại gần mục tiêu
   function checkNearTarget(piece, currentX, currentY) {
     const pieceId = piece.dataset.piece;
     const targetEl = targets[pieceId];
@@ -146,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetRect = targetEl.getBoundingClientRect();
     const pieceRect = piece.getBoundingClientRect();
 
-    // Tính tâm của mảnh ghép và tâm của mục tiêu
     const pieceCenterX = pieceRect.left + pieceRect.width / 2;
     const pieceCenterY = pieceRect.top + pieceRect.height / 2;
     const targetCenterX = targetRect.left + targetRect.width / 2;
@@ -163,7 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Xác nhận xem mảnh ghép có đủ gần để khớp vào vị trí hay không
   function isOverTarget(piece, targetEl) {
     if (!targetEl) return false;
 
@@ -194,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const outline = targetEl.querySelector('.target-outline');
       if (outline) {
         outline.style.display = 'block';
-        outline.style.fill = 'url(#grad-curve)';
+        outline.style.fill = '#ff6b6b';
         outline.style.stroke = '#e11d48';
         outline.style.strokeWidth = '6';
         outline.style.strokeDasharray = 'none';
@@ -203,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const outline = targetEl.querySelector('.target-outline');
       if (outline) {
         outline.style.display = 'block';
-        outline.style.stroke = 'url(#grad-hook)';
+        outline.style.stroke = '#0284c7';
         outline.style.strokeWidth = '18';
         outline.style.strokeDasharray = 'none';
       }
@@ -223,14 +262,8 @@ document.addEventListener('DOMContentLoaded', () => {
     pieceEl.style.width = '';
     pieceEl.style.height = '';
 
-    // Âm thanh snap thành công
-    if (window.soundManager) {
-      window.soundManager.playSnap();
-      const pieceName = pieceId === 'curve' ? 'Đúng rồi! Nét cong kín!' : 'Chính xác! Nét móc xuôi!';
-      setTimeout(() => {
-        window.soundManager.speak(pieceName);
-      }, 250);
-    }
+    // BẬT BANNER VÀ ÂM THANH KHEN THƯỞNG 2 GIÂY: "Tuyệt vời!" / "Đúng rồi!" / "Perfect!" / "Giỏi lắm!"
+    triggerPraise();
 
     updateProgress();
     checkVictory();
@@ -293,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function checkVictory() {
     if (gameState.installedPieces.size === 2) {
-      // Ẩn 2 nét riêng lẻ và hiện chữ "a" mực tím hoàn chỉnh liền mạch
+      // Chờ banner khen ngợi hiển thị một chút rồi hợp nhất chữ "a" mực tím hoàn chỉnh
       setTimeout(() => {
         targetCurve.style.display = 'none';
         targetHook.style.display = 'none';
@@ -309,16 +342,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.soundManager) {
           window.soundManager.playVictory();
           setTimeout(() => {
-            window.soundManager.speak('Hoan hô bé! Bé đã ghép thành công chữ a viết thường!');
+            window.soundManager.speak('Hoan hô bé! Chữ a viết thường gồm nét cong kín và nét móc xuôi cao 2 ô ly nhỏ!');
           }, 600);
         }
 
-        // Mở modal chúc mừng
+        // Mở modal chúc mừng sau 2 giây
         setTimeout(() => {
           victoryModal.classList.add('active');
           victoryModal.setAttribute('aria-hidden', 'false');
-        }, 1200);
-      }, 400);
+        }, 2200);
+      }, 600);
     }
   }
 
@@ -326,6 +359,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function resetGame() {
     gameState.installedPieces.clear();
+
+    if (gameState.praiseTimeout) {
+      clearTimeout(gameState.praiseTimeout);
+    }
+    if (praiseBanner) {
+      praiseBanner.classList.remove('active', 'fade-out');
+    }
 
     // Reset giao diện các mảnh ghép
     document.querySelectorAll('.piece-card').forEach(card => {
@@ -409,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Nút Nghe phát âm ở Modal chiến thắng
   btnVictoryAudio.addEventListener('click', () => {
     if (window.soundManager) {
-      window.soundManager.speak('Chữ a. Nét cong kín và nét móc xuôi tạo thành chữ a.');
+      window.soundManager.speak('Chữ a. Nét cong kín cao 2 ô ly và nét móc xuôi cao 2 ô ly nằm trên đường kẻ đậm.');
     }
   });
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Bé Ghép Chữ "a" Viết Thường - Trò Chơi Lắp Ráp Nét Chữ</title>
+  <title>Bé Ghép Chữ "a" Viết Thường - Chuẩn Vở Ô Ly Tiểu Học</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Patrick+Hand&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
         <span class="badge-icon">✏️</span>
         <div>
           <h1 class="main-title">BÉ TẬP GHÉP CHỮ <span class="letter-highlight">a</span></h1>
-          <p class="subtitle">Kéo thả <b>Nét cong kín</b> và <b>Nét móc</b> vào đúng vị trí trên vở ô ly nhé!</p>
+          <p class="subtitle">Chữ <b>a</b> cao đúng <b>2 ô ly nhỏ</b> và đặt trên <b>đường kẻ đậm</b></p>
         </div>
       </div>
       <div class="header-actions">
@@ -42,44 +42,110 @@
       <!-- Khung vở ô ly (Vùng lắp ráp) -->
       <section class="notebook-section" aria-label="Vở tập viết ô ly">
         <div class="notebook-header">
-          <span class="notebook-pin pin-left">🔴</span>
-          <span class="notebook-label">VỞ TẬP VIẾT Ô LY TIỂU HỌC</span>
-          <span class="notebook-pin pin-right">🔴</span>
+          <div class="header-left">
+            <span class="notebook-pin">🔴</span>
+            <span class="notebook-label">VỞ TẬP VIẾT Ô LY CHUẨN LỚP 1</span>
+          </div>
+          <div class="rule-hint-pill">
+            📏 Cao đúng 2 ô ly nhỏ • Đáy đặt trên đường kẻ đậm
+          </div>
+          <span class="notebook-pin">🔴</span>
         </div>
 
         <div class="notebook-sheet" id="notebook-sheet">
-          <!-- Lưới ô ly SVG nền -->
-          <div class="grid-lines" id="grid-lines"></div>
-
-          <!-- Khu vực lắp ráp chứa các slot bóng mờ -->
+          <!-- Khu vực lắp ráp chứa toàn bộ lưới SVG chuẩn xác 100% -->
           <div class="assembly-area" id="assembly-area">
-            <svg id="guide-svg" viewBox="0 0 340 380" class="guide-svg">
-              <!-- Đường kẻ phụ trợ đường kẻ số 1, 2, 3 chuẩn ô ly -->
+            <svg id="guide-svg" viewBox="0 0 360 360" class="guide-svg">
               <defs>
                 <filter id="glow-filter" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feGaussianBlur stdDeviation="5" result="blur" />
                   <feComposite in="SourceGraphic" in2="blur" operator="over" />
                 </filter>
+                <linearGradient id="curve-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FF5757" />
+                  <stop offset="100%" stop-color="#FF8E53" />
+                </linearGradient>
+                <linearGradient id="hook-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#0284C7" />
+                  <stop offset="100%" stop-color="#38BDF8" />
+                </linearGradient>
               </defs>
 
-              <!-- Target 1: Nét cong kín (Ghost guide) -->
+              <!-- ================= HỆ THỐNG LƯỚI Ô LY TIỂU HỌC ================= -->
+              <!-- Các đường dọc ô ly nhỏ (cách nhau 30px / 60px) -->
+              <g class="grid-verticals">
+                <line x1="30" y1="30" x2="30" y2="330" class="grid-line-sub" />
+                <line x1="60" y1="30" x2="60" y2="330" class="grid-line-main" />
+                <line x1="90" y1="30" x2="90" y2="330" class="grid-line-sub" />
+                <line x1="120" y1="30" x2="120" y2="330" class="grid-line-main" />
+                <line x1="150" y1="30" x2="150" y2="330" class="grid-line-sub" />
+                <line x1="180" y1="30" x2="180" y2="330" class="grid-line-main" />
+                <line x1="210" y1="30" x2="210" y2="330" class="grid-line-sub" />
+                <line x1="240" y1="30" x2="240" y2="330" class="grid-line-main" />
+                <line x1="270" y1="30" x2="270" y2="330" class="grid-line-sub" />
+                <line x1="300" y1="30" x2="300" y2="330" class="grid-line-main" />
+                <line x1="330" y1="30" x2="330" y2="330" class="grid-line-sub" />
+              </g>
+
+              <!-- Các đường ngang ô ly nhỏ -->
+              <g class="grid-horizontals">
+                <!-- Đường phụ trên -->
+                <line x1="30" y1="30" x2="330" y2="30" class="grid-line-sub" />
+                <!-- Đường kẻ 4 (phụ) -->
+                <line x1="30" y1="90" x2="330" y2="90" class="grid-line-main" />
+                <text x="335" y="94" class="grid-label">ĐK 4</text>
+
+                <!-- Đường kẻ 3: Đỉnh chữ a (y = 150) - Đúng cao 2 ô ly so với đường kẻ đậm -->
+                <line x1="30" y1="150" x2="330" y2="150" class="grid-line-guide line-dk3" />
+                <text x="335" y="154" class="grid-label label-dk3">ĐK 3 (cao 2 ô ly)</text>
+
+                <!-- Đường kẻ 2: Điểm dừng nét móc (y = 210) - Cao 1 ô ly -->
+                <line x1="30" y1="210" x2="330" y2="210" class="grid-line-guide line-dk2" />
+                <text x="335" y="214" class="grid-label label-dk2">ĐK 2 (cao 1 ô ly)</text>
+
+                <!-- Đường kẻ 1: ĐƯỜNG KẺ ĐẬM (y = 270) - Dòng kẻ đáy đặt chữ a -->
+                <line x1="20" y1="270" x2="340" y2="270" class="grid-line-baseline" />
+                <text x="335" y="274" class="grid-label label-baseline">ĐƯỜNG KẺ ĐẬM</text>
+
+                <!-- Đường kẻ phụ đáy -->
+                <line x1="30" y1="330" x2="330" y2="330" class="grid-line-sub" />
+              </g>
+
+              <!-- Thước đo cao 2 ô ly trực quan bên trái -->
+              <g class="height-ruler">
+                <line x1="55" y1="150" x2="55" y2="270" class="ruler-line" />
+                <polyline points="50,158 55,150 60,158" class="ruler-arrow" />
+                <polyline points="50,262 55,270 60,262" class="ruler-arrow" />
+                <rect x="35" y="196" width="40" height="26" rx="6" fill="#fef08a" stroke="#eab308" stroke-width="1.5" />
+                <text x="55" y="213" class="ruler-text">2 ô ly</text>
+              </g>
+
+              <!-- ================= TARGET VỊ TRÍ LẮP GHÉP ================= -->
+
+              <!-- Target 1: Nét cong kín (Cao từ y=150 xuống y=270, rộng từ x=90 đến x=180 = 1.5 ô ly) -->
               <g id="target-stroke-curve" class="drop-target" data-target="curve">
-                <path class="target-outline-glow" d="M 175,135 C 175,102 145,80 105,80 C 65,80 35,115 35,175 C 35,235 65,270 105,270 C 145,270 175,248 175,215" />
-                <path class="target-outline" d="M 175,135 C 175,102 145,80 105,80 C 65,80 35,115 35,175 C 35,235 65,270 105,270 C 145,270 175,248 175,215 C 175,190 175,150 175,135 Z" />
-                <text x="105" y="180" class="target-text">Nét cong kín</text>
+                <path class="target-outline-glow" 
+                      d="M 180,185 C 180,152 155,150 135,150 C 105,150 90,175 90,210 C 90,245 105,270 135,270 C 158,270 180,268 180,235" />
+                <path class="target-outline" 
+                      d="M 180,185 C 180,152 155,150 135,150 C 105,150 90,175 90,210 C 90,245 105,270 135,270 C 158,270 180,268 180,235 C 180,210 180,195 180,185 Z" />
+                <text x="135" y="215" class="target-text">Nét cong kín</text>
               </g>
 
-              <!-- Target 2: Nét móc (Ghost guide) -->
+              <!-- Target 2: Nét móc xuôi (Bắt đầu từ ĐK 3 y=150, chạm Đường kẻ đậm y=270, móc lên ĐK 2 y=210) -->
               <g id="target-stroke-hook" class="drop-target" data-target="hook">
-                <path class="target-outline-glow" d="M 175,80 L 175,225 C 175,255 195,270 230,270 C 265,270 285,245 285,210" />
-                <path class="target-outline" d="M 175,80 L 175,225 C 175,255 195,270 230,270 C 265,270 285,245 285,210" />
-                <text x="235" y="160" class="target-text">Nét móc</text>
+                <path class="target-outline-glow" 
+                      d="M 180,150 L 180,245 C 180,265 195,270 215,270 C 235,270 245,255 245,210" />
+                <path class="target-outline" 
+                      d="M 180,150 L 180,245 C 180,265 195,270 215,270 C 235,270 245,255 245,210" />
+                <text x="215" y="195" class="target-text">Nét móc</text>
               </g>
 
-              <!-- Finished full letter (hiển thị khi hoàn thành) -->
+              <!-- Finished full letter (hiển thị khi hoàn thành toàn bộ chữ a) -->
               <g id="completed-letter" class="completed-letter hidden">
-                <path class="letter-stem stroke-curve-done" d="M 175,135 C 175,102 145,80 105,80 C 65,80 35,115 35,175 C 35,235 65,270 105,270 C 145,270 175,248 175,215 C 175,190 175,150 175,135 Z" />
-                <path class="letter-stem stroke-hook-done" d="M 175,80 L 175,225 C 175,255 195,270 230,270 C 265,270 285,245 285,210" />
+                <path class="letter-stem stroke-curve-done" 
+                      d="M 180,185 C 180,152 155,150 135,150 C 105,150 90,175 90,210 C 90,245 105,270 135,270 C 158,270 180,268 180,235 C 180,210 180,195 180,185 Z" />
+                <path class="letter-stem stroke-hook-done" 
+                      d="M 180,150 L 180,245 C 180,265 195,270 215,270 C 235,270 245,255 245,210" />
               </g>
             </svg>
 
@@ -90,9 +156,9 @@
 
         <!-- Hướng dẫn các đường kẻ ô ly chuẩn sư phạm -->
         <div class="line-guide-bar">
-          <span class="line-tag tag-top">Đường kẻ 3 (cao 2 ô ly)</span>
-          <span class="line-tag tag-middle">Đường kẻ 2 (cao 1 ô ly)</span>
-          <span class="line-tag tag-bottom">Đường kẻ 1 (dòng kẻ đậm đáy)</span>
+          <span class="line-tag tag-top">🔴 ĐK 3 (Cao 2 ô ly - Đỉnh chữ)</span>
+          <span class="line-tag tag-middle">🔵 ĐK 2 (Cao 1 ô ly - Điểm dừng)</span>
+          <span class="line-tag tag-bottom">⭐ ĐƯỜNG KẺ ĐẬM (Đáy đặt chữ)</span>
         </div>
       </section>
 
@@ -103,7 +169,7 @@
             <span class="star-badge">🧩</span>
             <h3>CÁC MẢNH GHÉP NÉT CHỮ</h3>
           </div>
-          <span class="dock-desc">Bé hãy kéo từng nét vào đúng bóng mờ trên bảng nhé!</span>
+          <span class="dock-desc">Kéo từng nét vào đúng bóng mờ trên vở ô ly nhé!</span>
         </div>
 
         <div class="pieces-tray" id="pieces-tray">
@@ -116,53 +182,53 @@
               <button class="btn-read-piece" data-speech="Nét cong kín" title="Nghe đọc tên nét">🔊</button>
             </div>
             
-            <div class="piece-canvas-wrapper draggable-piece" id="piece-curve" data-piece="curve" tabindex="0" role="button" aria-grabbed="false" aria-label="Nét cong kín, kéo vào bảng">
-              <svg viewBox="0 0 170 220" class="piece-svg">
-                <defs>
-                  <linearGradient id="grad-curve" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#FF6B6B" />
-                    <stop offset="100%" stop-color="#FF8E53" />
-                  </linearGradient>
-                  <filter id="piece-shadow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="2" dy="5" stdDeviation="4" flood-opacity="0.3" />
-                  </filter>
-                </defs>
+            <div class="piece-canvas-wrapper draggable-piece" id="piece-curve" data-piece="curve" tabindex="0" role="button" aria-grabbed="false" aria-label="Nét cong kín, cao 2 ô ly nhỏ, kéo vào bảng">
+              <svg viewBox="0 0 140 180" class="piece-svg">
+                <!-- Lưới ô ly con mờ nền -->
+                <g class="mini-grid" opacity="0.35">
+                  <line x1="10" y1="20" x2="130" y2="20" stroke="#93c5fd" stroke-dasharray="2 2" />
+                  <line x1="10" y1="80" x2="130" y2="80" stroke="#93c5fd" stroke-dasharray="2 2" />
+                  <line x1="10" y1="140" x2="130" y2="140" stroke="#1d4ed8" stroke-width="2" />
+                  <line x1="25" y1="10" x2="25" y2="150" stroke="#bfdbfe" />
+                  <line x1="70" y1="10" x2="70" y2="150" stroke="#bfdbfe" />
+                  <line x1="115" y1="10" x2="115" y2="150" stroke="#bfdbfe" />
+                </g>
                 <path class="piece-path curve-path" 
-                      d="M 155,60 C 155,27 125,5 85,5 C 45,5 15,40 15,100 C 15,160 45,195 85,195 C 125,195 155,173 155,140 C 155,115 155,75 155,60 Z" />
+                      d="M 115,55 C 115,22 90,20 70,20 C 40,20 25,45 25,80 C 25,115 40,140 70,140 C 93,140 115,138 115,105 C 115,80 115,65 115,55 Z" />
                 <!-- Mắt cười cute cho nét chữ -->
-                <circle cx="70" cy="95" r="4" fill="#5D101D" />
-                <circle cx="100" cy="95" r="4" fill="#5D101D" />
-                <path d="M 80,105 Q 85,115 90,105" stroke="#5D101D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <circle cx="58" cy="74" r="3.5" fill="#5D101D" />
+                <circle cx="82" cy="74" r="3.5" fill="#5D101D" />
+                <path d="M 65,83 Q 70,91 75,83" stroke="#5D101D" stroke-width="2" fill="none" stroke-linecap="round"/>
               </svg>
-              <div class="drag-hint-badge">Kéo tớ đi! ✋</div>
+              <div class="drag-hint-badge">Cao 2 ô ly ✋</div>
             </div>
             <div class="piece-slot-anchor" id="slot-curve"></div>
           </div>
 
-          <!-- Mảnh 2: Nét móc xuôi / móc ngược (chữ a) -->
+          <!-- Mảnh 2: Nét móc xuôi (chữ a) -->
           <div class="piece-card" id="card-hook" data-piece="hook">
             <div class="piece-header">
               <span class="piece-num">2</span>
-              <span class="piece-name">Nét móc xuôi (móc ngược)</span>
+              <span class="piece-name">Nét móc xuôi</span>
               <button class="btn-read-piece" data-speech="Nét móc xuôi" title="Nghe đọc tên nét">🔊</button>
             </div>
             
-            <div class="piece-canvas-wrapper draggable-piece" id="piece-hook" data-piece="hook" tabindex="0" role="button" aria-grabbed="false" aria-label="Nét móc, kéo vào bảng">
-              <svg viewBox="0 0 140 220" class="piece-svg">
-                <defs>
-                  <linearGradient id="grad-hook" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#4FACFE" />
-                    <stop offset="100%" stop-color="#00F2FE" />
-                  </linearGradient>
-                </defs>
+            <div class="piece-canvas-wrapper draggable-piece" id="piece-hook" data-piece="hook" tabindex="0" role="button" aria-grabbed="false" aria-label="Nét móc xuôi, cao 2 ô ly nhỏ, kéo vào bảng">
+              <svg viewBox="0 0 140 180" class="piece-svg">
+                <!-- Lưới ô ly con mờ nền -->
+                <g class="mini-grid" opacity="0.35">
+                  <line x1="10" y1="20" x2="130" y2="20" stroke="#93c5fd" stroke-dasharray="2 2" />
+                  <line x1="10" y1="80" x2="130" y2="80" stroke="#93c5fd" stroke-dasharray="2 2" />
+                  <line x1="10" y1="140" x2="130" y2="140" stroke="#1d4ed8" stroke-width="2" />
+                </g>
                 <path class="piece-path hook-path" 
-                      d="M 20,5 L 20,150 C 20,180 40,195 75,195 C 110,195 130,170 130,135" />
+                      d="M 35,20 L 35,115 C 35,135 50,140 70,140 C 90,140 100,125 100,80" />
                 <!-- Mắt cười cute cho nét chữ -->
-                <circle cx="35" cy="70" r="4" fill="#0C4A6E" />
-                <circle cx="35" cy="95" r="4" fill="#0C4A6E" />
-                <path d="M 37,80 Q 45,83 37,86" stroke="#0C4A6E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <circle cx="48" cy="55" r="3.5" fill="#0C4A6E" />
+                <circle cx="48" cy="75" r="3.5" fill="#0C4A6E" />
+                <path d="M 50,62 Q 57,65 50,68" stroke="#0C4A6E" stroke-width="2" fill="none" stroke-linecap="round"/>
               </svg>
-              <div class="drag-hint-badge">Kéo tớ đi! ✋</div>
+              <div class="drag-hint-badge">Cao 2 ô ly ✋</div>
             </div>
             <div class="piece-slot-anchor" id="slot-hook"></div>
           </div>
@@ -184,6 +250,15 @@
 
     </main>
 
+    <!-- BANNER KHEN THƯỞNG GIỮA MÀN HÌNH (Hiện 2 giây rồi biến mất) -->
+    <div id="praise-banner" class="praise-banner" aria-live="assertive">
+      <div class="praise-content">
+        <span class="praise-stars-left">✨🌟</span>
+        <span id="praise-text" class="praise-text">Tuyệt vời!</span>
+        <span class="praise-stars-right">🌟✨</span>
+      </div>
+    </div>
+
     <!-- Modal chiến thắng chúc mừng bé -->
     <div class="victory-modal" id="victory-modal" aria-hidden="true" role="dialog">
       <div class="victory-card">
@@ -197,10 +272,10 @@
             <span class="giant-letter">a</span>
           </div>
           <div class="letter-summary">
-            <p><b>Chữ a viết thường gồm:</b></p>
+            <p><b>Quy chuẩn chữ "a" viết thường:</b></p>
             <ul>
-              <li>🔴 <b>Nét 1:</b> Nét cong kín (cao 2 ô ly, rộng 1.5 ô ly)</li>
-              <li>🔵 <b>Nét 2:</b> Nét móc xuôi / móc ngược (chạm dòng kẻ 1 rồi uốn lên)</li>
+              <li>🔴 <b>Nét 1 (Nét cong kín):</b> Cao đúng <b>2 ô ly nhỏ</b>, rộng 1.5 ô ly.</li>
+              <li>🔵 <b>Nét 2 (Nét móc xuôi):</b> Cao đúng <b>2 ô ly nhỏ</b>, chân nằm trên <b>đường kẻ đậm</b> và móc lên đường kẻ 2.</li>
             </ul>
           </div>
         </div>
@@ -221,7 +296,7 @@
 
     <!-- Hướng dẫn chân trang -->
     <footer class="game-footer">
-      <p>💡 <b>Mẹo cho bé:</b> Chữ "a" viết thường gồm 1 nét cong kín bên trái và 1 nét móc áp sát bên phải. Chuẩn mẫu chữ viết tiểu học Việt Nam.</p>
+      <p>💡 <b>Chuẩn tập viết tiếng Việt lớp 1:</b> Chữ "a" cao 2 ô ly nhỏ. Nét cong kín và nét móc xuôi đều đặt chân chuẩn xác trên đường kẻ đậm.</p>
     </footer>
 
   </div>
